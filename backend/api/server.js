@@ -1,4 +1,5 @@
 const express = require('express');
+const errorHandler = require('./handlers/errorHandler');
 
 module.exports = function Server({ apiRouter }) {  
     const api = express();  
@@ -9,6 +10,7 @@ module.exports = function Server({ apiRouter }) {
     api.use(express.static('uploads')); 
 
     api.use(apiRouter); 
-       
+    
+    api.use(errorHandler)
     return api;
 }

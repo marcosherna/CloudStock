@@ -12,6 +12,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    toJSON() {
+      const user = Object.assign({}, this.get());
+      user.avatar = user.img_user || null; 
+      delete user.password;
+      delete user.img_user;
+      return { 
+        id: user.id, 
+        avatar: user.avatar,
+        ...user
+      };
+    }
   }
   User.init({
     username: DataTypes.STRING(15),
@@ -20,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'User', 
   });
   return User;
 };
