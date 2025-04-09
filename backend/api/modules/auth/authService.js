@@ -18,7 +18,7 @@ module.exports = function AuthService({ userRepository }) {
 
     const isPasswordValid = await comparePassword(password, user.password);
 
-    if (!isPasswordValid) throw new Unauthorized("Invalid password"); 
+    if (!isPasswordValid) throw new Unauthorized("Invalid password");
 
     return user;
   };
@@ -29,7 +29,7 @@ module.exports = function AuthService({ userRepository }) {
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) throw new Conflict("User already exists");
 
-    const hashedPassword = await hashPassword(password); 
+    const hashedPassword = await hashPassword(password);
 
     const newUser = await userRepository.create({
       username,
@@ -39,6 +39,19 @@ module.exports = function AuthService({ userRepository }) {
     });
 
     return newUser;
+  };
+
+  service.forgotPassword = async (password, email, newPassword) => {
+    const user = await userRepository.findByEmail(email);
+    if (!user) throw new NotFound("User not found");
+
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid) throw new Unauthorized("Invalid password");
+
+    const hashedPassword = await hashPassword(newPassword);
+    await userRepository.update(user.id, { password: hashedPassword });
+
+    return user;
   };
 
   return service;

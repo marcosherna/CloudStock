@@ -19,5 +19,9 @@ module.exports = function UserRepository({ db }) {
     return await User.update(userData, { where: { id: userId } });
   };
 
+  repository.delete = async (userId) => {
+    return await User.destroy({ where: { id: userId } });
+  }
+
   return repository;
 };

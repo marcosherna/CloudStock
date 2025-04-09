@@ -8,6 +8,7 @@ module.exports = function authRouter({ authController }) {
   router.get(`${PATH}/users`, asyncHandler(authController.findAll));
   router.post(`${PATH}/login`, asyncHandler(authController.logIn));
   router.post(`${PATH}/register`, asyncHandler(authController.register));
+  router.post(`${PATH}/forgot-password`, asyncHandler(authController.forgotPassword));
 
   return router;
 };

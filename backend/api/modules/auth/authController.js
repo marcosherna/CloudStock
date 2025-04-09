@@ -25,5 +25,15 @@ module.exports = function AuthController({ authService }) {
     return res.status(201).json(user.toJSON());
   };
 
+  controller.forgotPassword = async (req, res) => {
+    const { password, email, newPassword } = req.body;
+    await authService.forgotPassword(
+      password,
+      email,
+      newPassword
+    );
+    return res.status(204).end();
+  }
+
   return controller;
 };
