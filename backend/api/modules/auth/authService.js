@@ -2,6 +2,8 @@ const NotFound = require("../../errors/notFound");
 const Unauthorized = require("../../errors/unauthorized");
 const Conflict = require("../../errors/conflict");
 
+const { hashPassword, comparePassword } = require("../../libs/bcrypt");
+
 module.exports = function AuthService({ userRepository }) {
   const service = {};
 
@@ -13,7 +15,10 @@ module.exports = function AuthService({ userRepository }) {
     const user = await userRepository.findByEmail(email);
 
     if (!user) throw new NotFound("User not found");
-    if (user.password !== password) throw new Unauthorized("Invalid password");
+
+    const isPasswordValid = await comparePassword(password, user.password);
+
+    if (!isPasswordValid) throw new Unauthorized("Invalid password"); 
 
     return user;
   };
@@ -24,11 +29,13 @@ module.exports = function AuthService({ userRepository }) {
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) throw new Conflict("User already exists");
 
+    const hashedPassword = await hashPassword(password); 
+
     const newUser = await userRepository.create({
       username,
       img_user: avatar,
       email,
-      password,
+      password: hashedPassword,
     });
 
     return newUser;
