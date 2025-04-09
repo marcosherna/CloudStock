@@ -1,8 +1,8 @@
-const NotFound = require("../../errors/notFound");
-const Unauthorized = require("../../errors/unauthorized");
-const Conflict = require("../../errors/conflict");
+const NotFound = require("@/errors/notFound");
+const Unauthorized = require("@/errors/unauthorized");
+const Conflict = require("@/errors/conflict");
 
-const { hashPassword, comparePassword } = require("../../libs/bcrypt");
+const { hashPassword, comparePassword } = require("@/libs/bcrypt");
 
 module.exports = function AuthService({ userRepository }) {
   const service = {};

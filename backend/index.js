@@ -1,3 +1,4 @@
+require('module-alias/register')
 const container = require('./api/container');
 
 const appContainer  = container()

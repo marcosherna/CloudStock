@@ -1,4 +1,4 @@
-const NotFound = require("../../errors/notFound");
+
 
 module.exports = function AuthController({ authService }) {
   const controller = {};

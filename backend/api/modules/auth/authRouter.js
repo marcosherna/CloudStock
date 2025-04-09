@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const asyncHandler = require("../../handlers/asyncHandler");
+const asyncHandler = require("@/handlers/asyncHandler");
 
 module.exports = function authRouter({ authController }) {
   const router = Router();
