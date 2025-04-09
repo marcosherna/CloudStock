@@ -1,6 +1,7 @@
-import { Button, Card, Input, Form, Checkbox } from "antd";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button, Card, Input, Form, Checkbox, message } from "antd";
 import { useNavigate } from "react-router";
-
+import { axiosInstance, END_POINTS } from "../libs/axios";
 
 interface User {
   email: string;
@@ -9,13 +10,43 @@ interface User {
 }
 
 export default function LoginView() {
-
   const navigate = useNavigate();
+  const keyMessage = "loginMessage";
 
-  const onFinishHandle = (values: User) => {
-    console.log("Received values of form: ", values);
-    navigate("/dashboard");
-  }
+  const onFinishHandle = async (user: User) => {
+    try {
+      message.open({
+        key: keyMessage,
+        type: "loading",
+        content: "Iniciando sesión...",
+      });
+
+      const response = await axiosInstance.post(END_POINTS.LOGIN, {
+        email: user.email,
+        password: user.password,
+      });
+
+      console.log("Respuesta del servidor:", response.data); // datos del usuario, token, etc.
+
+      message.open({
+        key: keyMessage,
+        type: "success",
+        content: "Sesión iniciada. Redirigiendo al dashboard...",
+        duration: 2,
+      });
+
+      navigate("/dashboard");
+    } catch (error:any) {
+      console.error("Error en login:", error.response?.data || error.message);
+
+      message.open({
+        key: keyMessage,
+        type: "error",
+        content: error.response?.data?.message || "Error al iniciar sesión",
+        duration: 2,
+      });
+    }
+  };
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
@@ -32,16 +63,22 @@ export default function LoginView() {
 
         <Form variant="outlined" layout="vertical" onFinish={onFinishHandle}>
           <Form.Item
-            name="Email"
+            name="email"
             label="Email"
-            rules={[{ required: true, message: "Please input your email!" }]}
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+                type: "email",
+              },
+            ]}
             className="!mb-3"
           >
             <Input placeholder="Email" type="email" autoComplete="email" />
           </Form.Item>
 
           <Form.Item
-            name="Password"
+            name="password"
             label="Password"
             rules={[{ required: true, message: "Please input your password!" }]}
             className="!mb-3"
