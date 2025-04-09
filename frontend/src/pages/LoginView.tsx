@@ -1,6 +1,22 @@
 import { Button, Card, Input, Form, Checkbox } from "antd";
+import { useNavigate } from "react-router";
+
+
+interface User {
+  email: string;
+  password: string;
+  remember: boolean;
+}
 
 export default function LoginView() {
+
+  const navigate = useNavigate();
+
+  const onFinishHandle = (values: User) => {
+    console.log("Received values of form: ", values);
+    navigate("/dashboard");
+  }
+
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
       <Card className="md:w-80 shadow-lg">
@@ -14,7 +30,7 @@ export default function LoginView() {
           </div>
         </div>
 
-        <Form variant="outlined" layout="vertical">
+        <Form variant="outlined" layout="vertical" onFinish={onFinishHandle}>
           <Form.Item
             name="Email"
             label="Email"

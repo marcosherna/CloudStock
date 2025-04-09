@@ -2,12 +2,14 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-// import App from './App.tsx'
-import LoginView from './pages/LoginView.tsx'
+import { BrowserRouter } from "react-router";
+
+import App from './App.tsx' 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* <App /> */}
-    <LoginView></LoginView>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter> 
   </StrictMode>,
 )
