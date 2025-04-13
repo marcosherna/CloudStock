@@ -1,38 +1,19 @@
 import React from "react";
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+
 import { Layout, Menu } from "antd";
 import { useSidebar } from "../context/SidebarContext";
 import { CloudAndBox } from "./icons/Customs";
+import { items } from "../utils/menu"; 
+import { useNavigate } from "react-router";
 
-const { Sider } = Layout;
 
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
+const { Sider } = Layout; 
+ 
 
 export default function SiderApp() {
   const [collapsedWidth, setCollapsedWidth] = React.useState(60);
   const { collapsed } = useSidebar();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -47,6 +28,10 @@ export default function SiderApp() {
     console.log("DashboardView useEffect");
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const navigateHandle = (key:string) => {  
+    navigate(`${key}`);
+  }
 
   return (
     <Sider
@@ -76,8 +61,10 @@ export default function SiderApp() {
       <Menu
         theme="light"
         mode="inline"
+        inlineIndent={15}
         style={!collapsed ? { width: 256 } : { width: 60 }}
         defaultSelectedKeys={["1"]}
+        onClick={(e)=> navigateHandle(e.key)}
         items={items}
       />
     </Sider>

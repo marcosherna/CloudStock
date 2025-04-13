@@ -1,8 +1,8 @@
-import React from "react";
 import { Layout, theme } from "antd";
 import NavApp from "../components/NavApp";
 import SiderApp from "../components/SiderApp";
 import { SidebarProvider } from "../context/SidebarContext";
+import { Outlet } from "react-router";
 
 const { Content, Footer } = Layout;
 
@@ -26,16 +26,7 @@ export default function Dashboard() {
                 borderRadius: borderRadiusLG,
               }}
             >
-              <p>long content</p>
-              {
-                // indicates very long content
-                Array.from({ length: 100 }, (_, index) => (
-                  <React.Fragment key={index}>
-                    {index % 20 === 0 && index ? "more" : "..."}
-                    <br />
-                  </React.Fragment>
-                ))
-              }
+              <Outlet/>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
