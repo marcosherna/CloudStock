@@ -1,11 +1,16 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
-module.exports = function CatalogsRouter({ categoryRouter, jobTitleRouter }) {
-    const router = Router();
-    const PATH = '/catalogs';
- 
-    router.use(`${PATH}`, categoryRouter);
-    router.use(`${PATH}`, jobTitleRouter);
+module.exports = function CatalogsRouter({
+  categoryRouter,
+  jobTitleRouter,
+  brandRouter,
+}) {
+  const router = Router();
+  const PATH = "/catalogs";
 
-    return router;
-}
+  router.use(`${PATH}`, categoryRouter);
+  router.use(`${PATH}`, jobTitleRouter);
+  router.use(`${PATH}`, brandRouter);
+
+  return router;
+};
