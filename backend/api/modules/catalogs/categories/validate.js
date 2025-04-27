@@ -43,6 +43,15 @@ const categorySchema = {
       errorMessage: "Status must be true or false",
     },
   },
+  color: {
+    in: ["body"],
+    optional: true,
+    isString: {
+      errorMessage: "Color must be a string",
+    },
+    trim: true,
+    escape: true,
+  },
 };
 
 const { id, ...categorySchemaWithoutId } = categorySchema;

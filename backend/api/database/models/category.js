@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    }, 
+    color: {
+      type: DataTypes.STRING(25),
+      allowNull: true,
+      defaultValue: null, 
     }
   }, {
     sequelize,
